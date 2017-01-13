@@ -9,6 +9,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 
+import java.util.ArrayList;
+import java.util.concurrent.ConcurrentLinkedQueue;
+
 /**
  * Created by anweshmishra on 13/01/17.
  */
@@ -17,6 +20,43 @@ public class LazyLoader {
     private int w = 0,h = 0;
     private LazyLoaderView lazyLoaderView;
     private boolean loaded = true;
+    private static Thread loadingThread;
+    private static boolean isRunning = false;
+    private static ConcurrentLinkedQueue<LazyLoaderView> lazyLoaderViews = new ConcurrentLinkedQueue<LazyLoaderView>();
+    public static void startLoading() {
+        if(!isRunning) {
+            isRunning = true;
+            loadingThread = new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    while (isRunning) {
+                        try {
+                            Thread.sleep(100);
+                        } catch (Exception ex) {
+
+                        }
+                        for (LazyLoaderView lazyLoaderView : lazyLoaderViews) {
+                            lazyLoaderView.postInvalidate();
+                        }
+                    }
+                }
+            });
+            loadingThread.start();
+        }
+    }
+    public static void pause() {
+        if(isRunning) {
+            isRunning = false;
+            while (true) {
+                try {
+                    loadingThread.join();
+                    break;
+                } catch (Exception ex) {
+
+                }
+            }
+        }
+    }
     public LazyLoader(final View view) {
         this.view = view;
     }
@@ -30,6 +70,10 @@ public class LazyLoader {
             parent.addView(lazyLoaderView, new ViewGroup.LayoutParams(w/2, w/2));
         }
         loaded = true;
+        lazyLoaderViews.add(lazyLoaderView);
+    }
+    public int hashCode() {
+        return view.hashCode();
     }
     public void load() {
         loaded = false;
@@ -50,6 +94,7 @@ public class LazyLoader {
             ViewGroup parent = (ViewGroup) view.getParent();
             if (parent != null) {
                 parent.removeView(lazyLoaderView);
+                lazyLoaderViews.remove(lazyLoaderView);
             }
             lazyLoaderView = null;
         }
@@ -82,13 +127,7 @@ public class LazyLoader {
             canvas.restore();
             deg+=10;
             prevDeg = deg;
-            try {
-                Thread.sleep(100);
-                invalidate();
-            }
-            catch (Exception ex) {
-
-            }
         }
+
     }
 }
