@@ -34,7 +34,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void run() {
                 try {
-                    Thread.sleep(3000);
+                    Thread.sleep(10000);
                 }
                 catch (Exception ex) {
 
@@ -47,7 +47,7 @@ public class MainActivity extends AppCompatActivity {
                     }
                 });
                 try {
-                    Thread.sleep(3000);
+                    Thread.sleep(10000);
                 }
                 catch (Exception ex) {
 
@@ -62,5 +62,13 @@ public class MainActivity extends AppCompatActivity {
 
             }
         }).start();
+    }
+    public void onResume() {
+        super.onResume();
+        LazyLoader.startLoading();
+    }
+    public void onPause() {
+        super.onPause();
+        LazyLoader.pause();
     }
 }
