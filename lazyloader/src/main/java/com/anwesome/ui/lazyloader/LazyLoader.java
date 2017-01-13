@@ -16,7 +16,7 @@ public class LazyLoader {
     private View view;
     private int w = 0,h = 0;
     private LazyLoaderView lazyLoaderView;
-    private boolean loaded = false;
+    private boolean loaded = true;
     public LazyLoader(final View view) {
         this.view = view;
     }
@@ -32,6 +32,7 @@ public class LazyLoader {
         loaded = true;
     }
     public void load() {
+        loaded = false;
         this.view.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
             @Override
             public void onGlobalLayout() {
@@ -50,7 +51,7 @@ public class LazyLoader {
             if (parent != null) {
                 parent.removeView(lazyLoaderView);
             }
-            loaded = false;
+            lazyLoaderView = null;
         }
 
     }
