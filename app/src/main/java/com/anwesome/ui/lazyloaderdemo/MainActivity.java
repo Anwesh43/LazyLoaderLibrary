@@ -20,6 +20,7 @@ public class MainActivity extends AppCompatActivity {
         lazyLoader1.load();
         img2 = (ImageView)findViewById(R.id.img2);
         final LazyLoader lazyLoader2 = new LazyLoader(img2);
-        lazyLoader2.load();
+        lazyLoader2.unload();
+
     }
 }

@@ -44,10 +44,13 @@ public class LazyLoader {
         });
     }
     public void unload() {
-        view.setAlpha(1);
-        ViewGroup parent = (ViewGroup)view.getParent();
-        if(parent!=null) {
-            parent.removeView(lazyLoaderView);
+        if(loaded) {
+            view.setAlpha(1);
+            ViewGroup parent = (ViewGroup) view.getParent();
+            if (parent != null) {
+                parent.removeView(lazyLoaderView);
+            }
+            loaded = false;
         }
 
     }
