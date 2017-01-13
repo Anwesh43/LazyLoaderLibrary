@@ -14,4 +14,10 @@
         android:layout_height="wrap_content"
         android:src="@drawable/stp"
         android:id="@+id/img1"/>
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/img1"
+        android:src="@drawable/stp2"
+        android:id="@+id/img2"/>
 </RelativeLayout>

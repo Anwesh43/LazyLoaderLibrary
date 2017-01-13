@@ -9,15 +9,17 @@ import android.widget.ImageView;
 import com.anwesome.ui.lazyloader.LazyLoader;
 
 public class MainActivity extends AppCompatActivity {
-    private ImageView img1;
+    private ImageView img1,img2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         img1 = (ImageView)findViewById(R.id.img1);
-        final LazyLoader lazyLoader = new LazyLoader(img1);
-        lazyLoader.load();
-
+        final LazyLoader lazyLoader1 = new LazyLoader(img1);
+        lazyLoader1.load();
+        img2 = (ImageView)findViewById(R.id.img2);
+        final LazyLoader lazyLoader2 = new LazyLoader(img2);
+        lazyLoader2.load();
     }
 }
